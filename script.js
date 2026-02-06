@@ -101,28 +101,34 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Service Card Click → Open Modal
+// Load Service Content into Modal
 serviceCards.forEach(card => {
-  card.addEventListener('click', function(e) {
-    if (e.target.closest('a')) {
-      e.preventDefault();
-      const key = this.getAttribute('data-service');
-      const s = servicesData[key];
-      if (s && bootstrapModal) {
-        document.getElementById('modalTitle').innerText = s.title;
-        document.getElementById('modalDescription').innerHTML = s.description;
-        const ul = document.getElementById('modalPointers');
-        ul.innerHTML = '';
-        s.points.forEach(p => {
-          const li = document.createElement('li');
-          li.innerHTML = p;
-          ul.appendChild(li);
-        });
-        bootstrapModal.show();
-        document.getElementById('mainContent').classList.add('blur-effect');
-      }
+
+  const btn = card.querySelector('a');
+
+  btn.addEventListener('click', function () {
+
+    const key = card.getAttribute('data-service');
+    const s = servicesData[key];
+
+    if (s) {
+      document.getElementById('modalTitle').innerText = s.title;
+      document.getElementById('modalDescription').innerHTML = s.description;
+
+      const ul = document.getElementById('modalPointers');
+      ul.innerHTML = '';
+
+      s.points.forEach(point => {
+        const li = document.createElement('li');
+        li.innerHTML = point;
+        ul.appendChild(li);
+      });
     }
+
   });
+
 });
+
 
 // Remove blur when any modal closes
 function removeBlur() {
@@ -290,3 +296,4 @@ if (contactForm) {
     this.reset();
   });
 }
+
